@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Address {
     private String houseNumber;
     private String street;
@@ -5,6 +9,25 @@ public class Address {
     private String city;
     private String state;
     private int zipCode;
+
+    public String readFile(String file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        String ls = System.getProperty("line.separator");
+        try {
+            while((line = reader.readLine()) != null){
+                stringBuilder.append(line);
+                stringBuilder.append(ls);
+            }
+            return stringBuilder.toString();
+        }
+        finally {
+            reader.close();
+        }
+
+
+    }
 
     public Address(String houseNumber, String street, int aptNum, String city, String state, int zipCode) {
         this.houseNumber = houseNumber;
@@ -24,11 +47,11 @@ public class Address {
     }
     // 1313 Mockingbird Lane Apt 6A, Springfield, MO 65123
     public Address(String newAddress){
-        String[] segments = newAddress.split(",");
-        String first = segments[0];
-        String second = segments[1];
-        String third = segments[2];
-        String[] segments2 = first.split(" ")
+        String[] separateAddress = newAddress.split(",");
+        String first = separateAddress[0];
+        String second = separateAddress[1];
+        String third = separateAddress[2];
+        this.houseNumber = first.substring((0,first.indexOf("Apt"))-1);
     }
 
 
